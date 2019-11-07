@@ -4,32 +4,28 @@ m = int(spam[1]) # количество серверов
 q = int(spam[2]) # количество запросов
 
 spam = input().split(' ')
-chank = []
+chank = [] # список с серверами, на которых расположены чанки
 for i in spam:
     chank.append(int(i))
 
-inquiries = [] # запросы
+inquiries = [] # список для запросов
 for i in range(q):
     inquiries.append(input())
 
-execution = []
 for inquiry in inquiries:
     spam = inquiry.split(' ')
     server_from = int(spam[0])
     server_to = int(spam[1])
-    chank_b = int(spam[2])
+    chank_b = int(spam[2]) - 1
     chank_e = int(spam[3])
-    flag = True
-    for i in range(chank_b, chank_e + 1):
-        if chank[i - 1] != server_from:
-            flag = False
-            break
-    if not flag:
-        execution.append(0)
-        continue
+    s = set(chank[chank_b : chank_e]) # множество из серверов, на которых расположены чанки, которые нужно переместить в запросе
+    if len(s) == 1 and server_from in s:
+        # Если перемещаемые в запросе чанки находятся на нужном сервере,
+        # чанки перемещаются
+        for i in range(chank_b, chank_e):
+            chank[i] = server_to
+        print(1)
     else:
-        for i in range(chank_b, chank_e + 1):
-            chank[i - 1] = server_to
-        execution.append(1)
-for i in execution:
-    print(i)
+        # Если не все перемещаемые чанки находятся на нужном сервере,
+        # чанки не перемещаются
+        print(0)
