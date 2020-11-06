@@ -1,0 +1,32 @@
+<script>
+    var list = [["Mallory", "Everest", "Mont Blanc", "Pillar Rock"],
+    ["Mawson", "South Pole", "New Hebrides"],
+    ["Hillary", "Everest", "South Pole"]
+    ];
+
+    function f(explorers) {
+        var ters = new Set();
+        var result = [];
+
+        for (let list_for_explorer of explorers) {
+            let explorer = list_for_explorer[0];
+            for (let ter of list_for_explorer.slice(1)) {
+                if (ters.has(ter)) {
+                    for (let i = 0; i < result.length; i++) {
+                        if (result[i][0] == ter) {
+                            result[i].push(explorer);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    ters.add(ter);
+                    result.push([ter, explorer]);
+                }
+            }
+        }
+        return result;
+    };
+
+    console.log(f(list));
+</script>
