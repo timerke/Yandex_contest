@@ -1,0 +1,69 @@
+<script>
+    let diffs = [[1, 0],
+    [0, 1],
+    [1, 1]
+    ];
+
+
+    module.exports = function (diffs) {
+        // Получаем отдельно массивы с координатами x и y
+        let diffs_x = [], diffs_y = [];
+        for (let i = 0; i < diffs.length; i++) {
+            diffs_x.push(diffs[i][0]);
+            diffs_y.push(diffs[i][1]);
+        }
+        // Проверяем, можно ли только с координатой x вернуться в исходное значение
+        let result_x = check(diffs_x);
+        if (result_x == null)
+            return null;
+        // Проверяем, можно ли только с координатой y вернуться в исходное значение
+        let result_y = check(diffs_y);
+        if (result_y == null)
+            return null;
+        // Объединяем нужные смещения по x и y
+        return join(result_x, result_y);
+
+        /**
+         * Функция объединяет два одномерных массива в двумерный массив.
+         * @param list_1, list2: одномерные массивы для объединения.
+         * @return: двумерный массив.
+         */
+        function join(list_1, list_2) {
+            let list = [];
+            for (let i = 0; i < list_1.length; i++)
+                list.push([list_1[i], list_2[i]]);
+            return list;
+        }
+
+        /**
+         * Функция находит, какие элементы массива должны поменять знак, чтобы сумма всех
+         * элементов была равна 0.
+         * @param list: одномерный массив.
+         * @return: преобразованный массив или null.
+         */
+        function check(list) {
+            let sum = 0;
+            let required_list = [];
+            let previous = 1;
+            for (let element of list) {
+                if (element == 1) {
+                    if (previous == 1)
+                        previous = -1;
+                    else
+                        previous = 1;
+                    required_list.push(previous);
+                    sum += element;
+                }
+                else
+                    required_list.push(0);
+            }
+            if (sum % 2 != 0)
+                return null;
+            else
+                return required_list;
+        }
+    }
+
+    let result = f(diffs);
+    console.log(result);
+</script>
